@@ -1,0 +1,14 @@
+/*编译*/
+#!/bin/bash
+FILE="${GEDIT_CURRENT_DOCUMENT_NAME}"
+FILE_ONLY="${FILE%.*}";
+
+g++ -ggdb -Wall -o "$FILE_ONLY" "$FILE"
+
+/*运行*/
+#!/bin/bash
+FILE="${GEDIT_CURRENT_DOCUMENT_NAME}"
+FILE_ONLY="${FILE%.*}"
+
+echo -e "#!/bin/bash\nif test -e $FILE_ONLY.in;then\n./$FILE_ONLY < $FILE_ONLY.in\nelse\n./$FILE_ONLY\nfi\necho \"--end($?)--\"\nread dummy\n" >gedit.sh
+gnome-terminal -e "bash gedit.sh" 
